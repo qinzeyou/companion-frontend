@@ -1,7 +1,10 @@
 import {createApp} from 'vue'
 import App from './App.vue'
+// 样式重置文件
+import "@/assets/css/reset.scss";
+
 // 1. 引入你需要的组件
-import { NavBar, Icon } from 'vant';
+import Vant from 'vant';
 // 2. 引入组件样式
 import 'vant/lib/index.css';
 
@@ -10,6 +13,5 @@ import router from "@/router";
 
 const app = createApp(App)
 app.use(router);
-app.use(NavBar)
-app.use(Icon)
+app.use(Vant);
 app.mount('#app')

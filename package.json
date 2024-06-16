@@ -17,6 +17,7 @@
     "@types/node": "^20.14.2",
     "@vant/auto-import-resolver": "^1.1.0",
     "@vitejs/plugin-vue": "^5.0.4",
+    "sass": "^1.77.5",
     "typescript": "^5.2.2",
     "unplugin-auto-import": "^0.17.5",
     "unplugin-vue-components": "^0.27.0",

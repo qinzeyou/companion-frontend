@@ -15,6 +15,15 @@ export default defineConfig({
             resolvers: [VantResolver()],
         }),
     ],
+    css: {
+        //  css预处理
+        preprocessorOptions:{
+            scss:{
+                //  引入全局预定义变量
+                additionalData: `@import "./src/assets/css/variables.scss";`,
+            }
+        }
+    },
     resolve: {
         // 设置路径别名
         alias: {

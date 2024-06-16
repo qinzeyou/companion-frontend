@@ -3,25 +3,29 @@ import {createRouter, createWebHistory} from "vue-router";
 const routes = [
     {
         path: '/',
-        component: () => import("@/layouts/BasicLayout.vue"),
+        component: () => import("@/layouts/base-layout.vue"),
         redirect: '/home',
         children: [
             {
-                path: 'home',
-                component: () => import("@/pages/home/HomeIndex.vue")
+                path: '/home',
+                component: () => import("@/pages/home/home-index.vue")
             },
             {
-                path: 'team',
-                component: () => import("@/pages/team/TeamIndex.vue")
+                path: '/team',
+                component: () => import("@/pages/team/team-index.vue")
             },
             {
-                path: 'user',
-                component: () => import("@/pages/user/UserIndex.vue")
+                path: '/user',
+                component: () => import("@/pages/user/user-home/user-home.vue")
             },
             {
-                path: 'search',
-                component: () => import("@/pages/search/SearchIndex.vue")
+                path: '/search',
+                component: () => import("@/pages/search/search-index.vue")
             },
+            {
+                path: '/user-edit',
+                component: () => import("@/pages/user/user-edit/user-edit.vue")
+            }
         ]
     }
 ]
