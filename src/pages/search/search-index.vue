@@ -1,5 +1,9 @@
 <script lang="ts" setup>
-import {ref} from 'vue';
+import {ref, computed} from 'vue';
+import {useRouter} from "vue-router";
+
+// 系统变量
+const router = useRouter();
 
 /**
  * 页面变量
@@ -15,23 +19,28 @@ const originTagNameList = [
     {
         text: '性别',
         children: [
-            { text: '男', id: '男' },
-            { text: '女', id: '女' },
+            {text: '男', id: '男'},
+            {text: '女', id: '女'},
         ],
     },
     {
         text: '年级',
         children: [
-            { text: '大一', id: '大一' },
-            { text: '大二', id: '大二' },
-            { text: '大三', id: '大三' },
-            { text: '大四', id: '大四' },
-            { text: '毕业', id: '毕业' },
+            {text: '大一', id: '大一'},
+            {text: '大二', id: '大二'},
+            {text: '大三', id: '大三'},
+            {text: '大四', id: '大四'},
+            {text: '毕业', id: '毕业'},
         ],
     },
 ];
 // 标签列表
 const tagNameList = ref(JSON.parse(JSON.stringify(originTagNameList)));
+// 标识已选择标签列表是否为空，true为空，反之false
+const isEmptyTagNameList = computed(() => {
+    return activeTagNameList.value.length === 0;
+})
+
 /**
  * 事件定义
  */
@@ -64,6 +73,16 @@ const removeActiveTagName = (tagName: string) => {
     // 从已选择的标签数组中过滤掉传入的标签名称
     activeTagNameList.value = activeTagNameList.value.filter(item => item !== tagName);
 }
+// 标签搜索响应事件：携带已选择的标签数组传给搜索结果页
+const handlerSearch = () => {
+    console.log(tagNameList.value)
+    router.push({
+        path: '/search/result',
+        query: {
+            "tags": activeTagNameList.value
+        }
+    })
+}
 </script>
 
 <template>
@@ -76,7 +95,7 @@ const removeActiveTagName = (tagName: string) => {
                 @cancel="onCancel"
         />
         <van-divider>已选标签</van-divider>
-        <div class="active-placeholder" v-if="activeTagNameList.length === 0">请选择标签</div>
+        <div class="active-placeholder" v-if="isEmptyTagNameList">请选择标签</div>
         <van-row v-else class="selected-tag-row" :gutter="[20, 20]">
             <van-col span="6" v-for="tagName in activeTagNameList" :key="tagName">
                 <van-tag :show="true" closeable size="medium" type="primary" @close="removeActiveTagName(tagName)">
@@ -84,23 +103,45 @@ const removeActiveTagName = (tagName: string) => {
                 </van-tag>
             </van-col>
         </van-row>
+        <div class="search-box">
+            <van-button
+                v-if="!isEmptyTagNameList"
+                @click="handlerSearch"
+                plain
+                hairline
+                class="search-btn"
+                size="small"
+                type="primary"
+            >搜索</van-button>
+        </div>
         <van-divider>选择标签</van-divider>
         <van-tree-select
-            v-model:active-id="activeTagNameList"
-            v-model:main-active-index="activeIndex"
-            :items="tagNameList"
+                v-model:active-id="activeTagNameList"
+                v-model:main-active-index="activeIndex"
+                :items="tagNameList"
         />
     </form>
 </template>
 
 <style lang="scss" scoped>
 .active-placeholder {
-    width: 100%;
-    height: 60px;
-    text-align: center;
-    color: $text-secondary;
+  width: 100%;
+  height: 105px;
+  text-align: center;
+  color: $text-secondary;
 }
+
 .selected-tag-row {
-    padding: 20px;
+  padding: 20px;
+}
+
+.search-box {
+  display: flex;
+  justify-content: right;
+  padding: 0 20px;
+
+  .search-btn {
+    width: 50px;
+  }
 }
 </style>

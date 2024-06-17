@@ -23,6 +23,10 @@ const routes = [
                 component: () => import("@/pages/search/search-index.vue")
             },
             {
+                path: '/search/result',
+                component: () => import("@/pages/search/search-result.vue")
+            },
+            {
                 path: '/user-edit',
                 component: () => import("@/pages/user/user-edit/user-edit.vue")
             }

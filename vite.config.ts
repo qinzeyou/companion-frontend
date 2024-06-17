@@ -16,7 +16,7 @@ export default defineConfig({
         }),
     ],
     css: {
-        //  css预处理
+        // css预处理
         preprocessorOptions:{
             scss:{
                 //  引入全局预定义变量
