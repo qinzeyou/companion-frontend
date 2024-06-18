@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import BasePersonCard from "@/components/base/base-person-card.vue";
-import {useRoute} from "vue-router";
-import {onMounted, ref} from 'vue';
 import {UserType} from "@/types/user";
-import {searchUserByTags} from "@/api/service/user.ts";
+import {searchUserByTagsAPI} from "@/api/service/user.ts";
 
 const route = useRoute();
 
@@ -14,12 +12,9 @@ const userList = ref<UserType[]>([]);
 // 标识搜索是否为空，true为空，false反之，默认为空
 const searchFlag = ref<boolean>(true);
 
-
-// 根据标签列表向后端发送get请求
-
 // 页面挂载完成钩子函数
 onMounted(async () => {
-    userList.value = (await searchUserByTags(tags)).data.data;
+    userList.value = (await searchUserByTagsAPI(tags)).data.data;
     searchFlag.value = userList.value.length <= 0;
 })
 </script>

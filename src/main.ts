@@ -3,16 +3,14 @@ import App from './App.vue'
 // 样式重置文件
 import "@/assets/css/reset.scss";
 
-// 1. 引入你需要的组件
-import Vant from 'vant';
-// 2. 引入组件样式
-import 'vant/lib/index.css';
-
 // router
 import router from "@/router";
 
 // 封装的axios实例
 import request from "@/api/base/base-axios.ts";
+
+// pinia
+import pinia from "@/stores";
 
 const app = createApp(App)
 
@@ -21,5 +19,5 @@ const app = createApp(App)
 app.config.globalProperties.$request = request;
 
 app.use(router);
-app.use(Vant);
+app.use(pinia);
 app.mount('#app')

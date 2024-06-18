@@ -31,6 +31,10 @@ const routes = [
                 component: () => import("@/pages/user/user-edit/user-edit.vue")
             }
         ]
+    },
+    {
+        path: '/login',
+        component: () => import("@/pages/other/login.vue")
     }
 ]
 

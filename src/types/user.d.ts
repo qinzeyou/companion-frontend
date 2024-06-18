@@ -15,3 +15,11 @@ export type UserType = {
     profile: string;
     createTime: Date;
 }
+
+/**
+ * 用户登录请求参数
+ */
+export type LoginParams = {
+    userAccount: string,
+    password: string
+}

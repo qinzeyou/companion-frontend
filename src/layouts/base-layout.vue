@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import {ref} from 'vue';
-import {useRouter} from "vue-router";
-
 const router = useRouter();
 const active = ref('home');
 
@@ -10,7 +7,6 @@ const onClickLeft = () => history.back();
 const onSearchBtn = () => {
     router.push('/search');
 };
-
 </script>
 
 <template>

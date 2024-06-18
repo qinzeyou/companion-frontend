@@ -1,22 +1,17 @@
 <script lang="ts" setup>
-import {ref} from 'vue';
-import {UserType} from "@/types/user";
+import useSystemStore from "@/stores/module/system-store.ts";
 
-const user = ref<UserType>({
-    id: 1,
-    username: '菜牙',
-    userAccount: 'caiya',
-    phone: '19978321111',
-    avatarUrl: '',
-    gender: 0,
-    email: 'ttt@qq.com',
-    tags: [],
-    createTime: new Date()
-})
+const { getLoginState, loginUser } = useSystemStore();
+const loginState = getLoginState();
 </script>
 
 <template>
-    <div class="person-box">
+    <div v-if="!loginState" class="un-login">
+        <van-empty description="还未登录，请先登录">
+            <van-button round type="primary" class="bottom-button" to="/login">前往登录</van-button>
+        </van-empty>
+    </div>
+    <div v-else class="person-box">
         <!--        用户信息展示-->
         <div class="person-container">
             <van-row :gutter="20">
@@ -29,9 +24,9 @@ const user = ref<UserType>({
                 <!--                用户信息-->
                 <van-col class="person" span="16">
                     <!--                    昵称-->
-                    <p class="person-username">{{ user.username }} </p>
+                    <p class="person-username">{{ loginUser!.username }} </p>
                     <!--                    电话-->
-                    <p class="person-phone">{{ user.phone }} </p>
+                    <p class="person-phone">{{ loginUser!.phone }} </p>
                 </van-col>
             </van-row>
         </div>
