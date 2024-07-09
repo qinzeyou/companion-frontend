@@ -1,12 +1,23 @@
 <script lang="ts" setup>
-import useSystemStore from "@/stores/module/system-store.ts";
+import {UserType} from "@/types/user";
+import {getLoginUserAPI} from "@/api/service/user.ts";
 
-const { getLoginState, loginUser } = useSystemStore();
-const loginState = getLoginState();
+const loginUser = ref<UserType>();
+const loginState = ref<boolean>(false);
+
+onMounted(async () => {
+    const {data} = await getLoginUserAPI();
+    if (data.code == 200) {
+        loginUser.value = data.data;
+        loginState.value = false;
+    } else {
+        loginState.value = true;
+    }
+})
 </script>
 
 <template>
-    <div v-if="!loginState" class="un-login">
+    <div v-if="loginState" class="un-login">
         <van-empty description="还未登录，请先登录">
             <van-button round type="primary" class="bottom-button" to="/login">前往登录</van-button>
         </van-empty>
@@ -24,9 +35,9 @@ const loginState = getLoginState();
                 <!--                用户信息-->
                 <van-col class="person" span="16">
                     <!--                    昵称-->
-                    <p class="person-username">{{ loginUser!.username }} </p>
+                    <p class="person-username">{{ loginUser?.username }} </p>
                     <!--                    电话-->
-                    <p class="person-phone">{{ loginUser!.phone }} </p>
+                    <p class="person-phone">{{ loginUser?.phone }} </p>
                 </van-col>
             </van-row>
         </div>
@@ -75,6 +86,7 @@ const loginState = getLoginState();
   margin-top: 20px;
   //background-color: white;
 }
+
 // 退出栏
 .logout {
   padding: 20px 0;

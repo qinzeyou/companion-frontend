@@ -1,53 +1,34 @@
-//定义关于系统的store
 import {defineStore} from 'pinia'
 import {UserType} from "@/types/user";
 import {getLoginUserAPI} from "@/api/service/user.ts";
 
+
+// 定义关于系统的store
 const useSystemStore = defineStore("system", () => {
-    // 当前登录的用户信息
-    let loginUser = ref<UserType | undefined>(JSON.parse(JSON.stringify(localStorage.getItem("user"))));
-    // 登录状态，true为已登录，false为未登录
-    let loginState = ref<boolean>(false);
+    const loginUser = ref<UserType | null>();
 
-    // 存储当前登录用户信息
-    const setLoginUser = (value: UserType): void => {
-        value = JSON.parse(JSON.stringify(value));
-        loginUser.value = value;
-        localStorage.setItem("user", JSON.stringify(value));
+    const setLoginUser = (val: UserType | null) => {
+        loginUser.value = val;
+        sessionStorage.setItem("user", JSON.stringify(val));
     }
 
-    // 清除当前登录的用户信息
-    const removeLoginUser = ():void => {
-        loginUser.value = undefined;
-        localStorage.removeItem("user");
+    const getLoginUser = () => {
+        getLoginUserService();
+        return loginUser.value;
     }
 
-    // 获取当前登录用户信息
-    const getLoginUser = async () => {
-        const res:BaseType.BaseResponse<UserType> = (await getLoginUserAPI()).data;
-        if (res.code == 200) {
-            loginUser.value = res.data;
-            loginState.value = true;
-        } else {
-            loginState.value = false;
-        }
-    }
+    const getLoginUserService = () => {
+        getLoginUserAPI().then((res: BaseType.BaseResponse<any>) => {
+            if (res.data.code == 200) {
+                setLoginUser(res.data)
+            } else {
+                setLoginUser(null)
+            }
+        })
+    };
 
-    // 获取登录状态
-    const getLoginState = async () => {
-        await getLoginUser();
-        return loginState.value;
-    }
+    return { loginUser, setLoginUser, getLoginUser }
+});
 
-    return {
-        loginUser,
-        loginState,
-        setLoginUser,
-        removeLoginUser,
-        getLoginUser,
-        getLoginState
-    }
-})
-
-//暴露这个useCounter模块
+// 暴露模块
 export default useSystemStore;

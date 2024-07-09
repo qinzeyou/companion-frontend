@@ -1,12 +1,14 @@
-import {get, post} from '@/api/base/base-methods.ts'
-import {LoginParams, UserType} from "@/types/user";
+import {get, post, put} from '@/api/base/base-methods.ts'
+import {LoginParams, RecommendUsersParams, UserType} from "@/types/user";
+
+const BASE_API = "/user";
 
 /**
  * 根据标签数组 查询用户数据
  * @param tagNameList
  */
 export function searchUserByTagsAPI (tagNameList: string[]) {
-    return get<UserType[]>('/user/search/tags', {tagNameList});
+    return get<UserType[]>(`${BASE_API}/search/tags`, {tagNameList});
 }
 
 /**
@@ -15,7 +17,7 @@ export function searchUserByTagsAPI (tagNameList: string[]) {
  * @param loginForm 表单数据
  */
 export function loginAPI(loginForm: LoginParams) {
-    return post<UserType>('/user/login', loginForm);
+    return post<UserType>(`${BASE_API}/login`, loginForm);
 }
 
 /**
@@ -23,5 +25,22 @@ export function loginAPI(loginForm: LoginParams) {
  *
  */
 export function getLoginUserAPI() {
-    return get<UserType>("/user/current");
+    return get<UserType>(`${BASE_API}/current`);
+}
+
+/**
+ * 更新用户信息
+ *
+ * @param form
+ */
+export function updateUserAPI(form: UserType) {
+    return put<number>(`${BASE_API}/update`, form);
+}
+
+/**
+ * 推荐用户接口
+ *
+ */
+export function getRecommendUserList(form: RecommendUsersParams) {
+    return get<BaseType.PageResponse<UserType[]>>(`${BASE_API}/recommend`, form)
 }

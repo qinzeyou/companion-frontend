@@ -1,4 +1,5 @@
 import {createRouter, createWebHistory} from "vue-router";
+import {App} from "vue";
 
 const routes = [
     {
@@ -13,6 +14,10 @@ const routes = [
             {
                 path: '/team',
                 component: () => import("@/pages/team/team-index.vue")
+            },
+            {
+                path: '/team/add',
+                component: () => import("@/pages/team/team-operation/team-add.vue")
             },
             {
                 path: '/user',
@@ -42,5 +47,10 @@ const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes
 })
+
+// 全局注册路由
+export function setupRouter(app: App<Element>) {
+    app.use(router);
+}
 
 export default router

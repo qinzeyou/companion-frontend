@@ -75,7 +75,6 @@ const removeActiveTagName = (tagName: string) => {
 }
 // 标签搜索响应事件：携带已选择的标签数组传给搜索结果页
 const handlerSearch = () => {
-    console.log(tagNameList.value)
     router.push({
         path: '/search/result',
         query: {

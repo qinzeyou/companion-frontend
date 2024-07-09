@@ -1,9 +1,36 @@
 <script lang="ts" setup>
+import TeamRecommendIndex from "@/pages/team/team-recommend/team-recommend-index.vue";
+import TeamSearchIndex from "@/pages/team/team-search/team-search-index.vue";
+import TeamMineIndex from "@/pages/team/team-mine/team-mine-index.vue";
+
+const activeTab = ref<string>('recommend');
 
 </script>
 
 <template>
-    <h1>队伍</h1>
+    <van-tabs v-model:active="activeTab">
+        <van-tab name="recommend">
+            <template #title>
+                <van-icon name="bar-chart-o"/>
+                推荐
+            </template>
+            <TeamRecommendIndex/>
+        </van-tab>
+        <van-tab name="search">
+            <template #title>
+                <van-icon name="search"/>
+                搜索
+            </template>
+            <TeamSearchIndex/>
+        </van-tab>
+        <van-tab name="mine">
+            <template #title>
+                <van-icon name="manager-o"/>
+                我的
+            </template>
+            <TeamMineIndex/>
+        </van-tab>
+    </van-tabs>
 </template>
 
 <style scoped>

@@ -23,3 +23,10 @@ export type LoginParams = {
     userAccount: string,
     password: string
 }
+/**
+ * 推荐用户请求参数
+ */
+export type RecommendUsersParams = {
+    pageNum: number,
+    pageSize: number
+}

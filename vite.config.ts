@@ -8,11 +8,24 @@ import { ElementPlusResolver, VantResolver } from 'unplugin-vue-components/resol
 import { resolve } from 'path'
 
 export default defineConfig({
+    server: {
+        // 允许IP访问
+        host: "0.0.0.0",
+        // 应用端口
+        port: 3000,
+        // 运行是否自动打开浏览器
+        open: true,
+    },
     plugins: [
         vue(),
         AutoImport({
             // 配置需要自动导入的模块
-            imports: ['vue', 'vue-router'],
+            imports: ['vue', 'vue-router', "pinia",],
+            resolvers: [
+                // 自动导入 Element Plus 相关函数，如：ElMessage, ElMessageBox... (带样式)
+                ElementPlusResolver(),
+                VantResolver()
+            ],
             // 导入存放的位置
             dts: 'src/types/auto-import.d.ts',
         }),
@@ -38,5 +51,20 @@ export default defineConfig({
             '@': resolve(__dirname, './src'),
             '*': resolve('')
         },
-    }
+    },
+    // 构建配置
+    build: {
+        chunkSizeWarningLimit: 2000, // 消除打包大小超过500kb警告
+        minify: "terser", // Vite 2.6.x 以上需要配置 minify: "terser", terserOptions 才能生效
+        terserOptions: {
+            compress: {
+                keep_infinity: true, // 防止 Infinity 被压缩成 1/0，这可能会导致 Chrome 上的性能问题
+                drop_console: true, // 生产环境去除 console
+                drop_debugger: true, // 生产环境去除 debugger
+            },
+            format: {
+                comments: false, // 删除注释
+            },
+        },
+    },
 })

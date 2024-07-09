@@ -1,34 +1,42 @@
 <script lang="ts" setup>
-import {ref} from 'vue';
+import {UserType} from "@/types/user";
+import {getLoginUserAPI, updateUserAPI} from "@/api/service/user.ts";
+import {showFailToast, showSuccessToast} from "vant";
 
+const router = useRouter();
 // 表单数据
-const form = ref({
-    username: '',
-    userAccount: '',
-    phone: '',
-    avatarUrl: 'https://fastly.jsdelivr.net/npm/@vant/assets/leaf.jpeg',
-    gender: 0,
-    email: '',
-    tags: [],
-    createTime: new Date()
-});
+const form = ref<UserType>(<UserType>{});
 // 性别单选框选项
-const genderOptions = <{key: number, value: string}[]>[
+const genderOptions = <{ key: number, value: string }[]>[
     {key: 0, value: '男'},
     {key: 1, value: '女'},
     {key: 2, value: '保密'},
 ]
 
-const value = ref([
-    { url: 'https://fastly.jsdelivr.net/npm/@vant/assets/leaf.jpeg' },
-]);
-const onSubmit = (values) => {
-    console.log('submit', values);
+const getLoginUserInfo = async () => {
+    const {data} = await getLoginUserAPI();
+    if (data.code == 200) {
+        Object.assign(form.value, {...data.data})
+    }
+}
+
+onMounted(async () => {
+    await getLoginUserInfo();
+})
+
+const onUpdateUser = async () => {
+    const {data} = await updateUserAPI(form.value);
+    if (data.code) {
+        await getLoginUserInfo();
+        showSuccessToast("修改成功");
+    } else {
+        showFailToast("修改失败");
+    }
 };
 </script>
 
 <template>
-    <van-form class="form-box" @submit="onSubmit">
+    <van-form class="form-box" @submit="onUpdateUser">
         <van-cell-group inset>
             <van-field
                     v-model="form.username"
@@ -38,7 +46,7 @@ const onSubmit = (values) => {
                     :rules="[{ required: true, message: '请填写昵称' }]"
             />
             <van-field
-                    v-model="form.username"
+                    v-model="form.userAccount"
                     name="账号"
                     label="账号"
                     placeholder="账号"
@@ -50,15 +58,13 @@ const onSubmit = (values) => {
                     label="电话"
                     placeholder="电话"
             />
-            <van-field name="uploader" label="文件上传">
-                <template #input>
-                    <van-uploader v-model="value" />
-                </template>
-            </van-field>
             <van-field name="radio" label="性别">
                 <template #input>
                     <van-radio-group v-model="form.gender" direction="horizontal">
-                        <van-radio v-for="option in genderOptions" :key="option.key" :name="option.key">{{ option.value }}</van-radio>
+                        <van-radio v-for="option in genderOptions" :key="option.key" :name="option.key">{{
+                            option.value
+                            }}
+                        </van-radio>
                     </van-radio-group>
                 </template>
             </van-field>
@@ -67,12 +73,6 @@ const onSubmit = (values) => {
                     name="邮箱"
                     label="邮箱"
                     placeholder="邮箱"
-            />
-            <van-field
-                    v-model="form.tags"
-                    name="标签"
-                    label="标签"
-                    placeholder="标签"
             />
         </van-cell-group>
         <div style="margin: 16px;">

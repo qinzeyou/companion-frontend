@@ -7,7 +7,7 @@ import axios from "axios"
 // 由当前环境决定请求基础路径
 const baseUrl = import.meta.env.VITE_APP_API_URL;
 const request = axios.create({
-    timeout: 6000, // 请求超时时间 6s
+    timeout: 1200000, // 请求超时时间 20s
     timeoutErrorMessage: '请求超时', // 请求超时提示
     baseURL: baseUrl
 })
