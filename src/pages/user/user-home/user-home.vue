@@ -2,10 +2,13 @@
 import {UserType} from "@/types/user";
 import {getLoginUserAPI} from "@/api/service/user.ts";
 
+// 当前登录信息
 const loginUser = ref<UserType>();
+// 登录状态，已登录为true，未登录为false
 const loginState = ref<boolean>(false);
 
 onMounted(async () => {
+    // 获取当前登录用户信息
     const {data} = await getLoginUserAPI();
     if (data.code == 200) {
         loginUser.value = data.data;
@@ -43,7 +46,8 @@ onMounted(async () => {
         </div>
         <!--        操作栏-->
         <div class="operation-box">
-            <van-cell icon="contact-o" size="large" title="个人信息" is-link to="/user-edit"/>
+            <van-cell icon="contact-o" size="large" title="个人信息" is-link to="/user/edit"/>
+            <van-cell icon="list-switch" size="large" title="管理队伍" is-link to="/user/team/manager"/>
             <van-cell icon="setting-o" size="large" title="设置" is-link/>
         </div>
         <!--        退出栏-->

@@ -23,13 +23,6 @@ const activeTab = ref<string>('recommend');
             </template>
             <TeamSearchIndex/>
         </van-tab>
-        <van-tab name="mine">
-            <template #title>
-                <van-icon name="manager-o"/>
-                我的
-            </template>
-            <TeamMineIndex/>
-        </van-tab>
     </van-tabs>
 </template>
 

@@ -20,10 +20,6 @@ const routes = [
                 component: () => import("@/pages/team/team-operation/team-add.vue")
             },
             {
-                path: '/user',
-                component: () => import("@/pages/user/user-home/user-home.vue")
-            },
-            {
                 path: '/search',
                 component: () => import("@/pages/search/search-index.vue")
             },
@@ -32,9 +28,21 @@ const routes = [
                 component: () => import("@/pages/search/search-result.vue")
             },
             {
-                path: '/user-edit',
+                path: '/user',
+                component: () => import("@/pages/user/user-home/user-home.vue")
+            },
+            {
+                path: '/user/edit',
                 component: () => import("@/pages/user/user-edit/user-edit.vue")
-            }
+            },
+            {
+                path: '/user/team/manager',
+                component: () => import("@/pages/user/user-team/user-team-manager.vue")
+            },
+            {
+                path: '/information',
+                component: () => import("@/pages/information/information-index.vue")
+            },
         ]
     },
     {

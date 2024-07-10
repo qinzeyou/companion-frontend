@@ -40,3 +40,11 @@ export type AddTeamParams = {
     password: string,
     status: number,
 }
+
+/**
+ * 获取用户加入或创建队伍的返回结果
+ */
+export type TeamListByUserResponse = {
+    createTeamList: TeamType[],
+    joinTeamList: TeamType[]
+}

@@ -24,6 +24,7 @@ const onSearchBtn = () => {
     <van-tabbar class="nav-bar" route v-model="active">
         <van-tabbar-item to="/home" name="home" icon="home-o">主页</van-tabbar-item>
         <van-tabbar-item to="/team" name="team" icon="search">队伍</van-tabbar-item>
+        <van-tabbar-item to="/information" name="team" icon="chat-o" badge="5">信息</van-tabbar-item>
         <van-tabbar-item to="/user" name="user" icon="friends-o">个人</van-tabbar-item>
     </van-tabbar>
 </template>

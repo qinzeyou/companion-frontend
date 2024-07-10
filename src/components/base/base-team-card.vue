@@ -3,12 +3,53 @@
 -->
 <script lang="ts" setup>
 import {TeamType} from "@/types/team";
+import BaseResponse = BaseType.BaseResponse;
+import {delTeamAPI, postQuitTeamAPI} from "@/api/service/team.ts";
+import {showFailToast, showSuccessToast} from "vant";
 
 interface Props {
     team: TeamType, // 队伍数据
+    showJoinTeamList?: boolean, // 加入队伍列表显示
+    showOperationPanel?: boolean, // 操作面板显示
+    showDissolveBtn?: boolean, // 解散按钮显示
+    showLogoutBtn?: boolean, // 退出按钮显示
 }
 
-const props = defineProps<Props>();
+withDefaults(defineProps<Props>(), {
+    showJoinTeamList: true,
+    showOperationPanel: false,
+    showDissolveBtn: false,
+    showLogoutBtn: true
+});
+
+// 解散队伍响应事件
+const onDissolve = async (teamId: number):boolean => {
+    const res:BaseResponse<boolean> = (await delTeamAPI(teamId)).data;
+    if (res.code == 200 && res.data) {
+        showSuccessToast("解散成功");
+        return true;
+    } else {
+        showFailToast("解散失败");
+        return false;
+    }
+}
+// 退出队伍响应事件
+const onLogout = async (teamId: number) => {
+    const res:BaseResponse<boolean> = (await postQuitTeamAPI(teamId)).data;
+    if (res.code == 200 && res.data) {
+        showSuccessToast("退出成功");
+        return true;
+    } else {
+        showFailToast("退出失败");
+        return false;
+    }
+}
+
+// 暴露给父组件使用
+defineExpose({
+    onDissolve,
+    onLogout
+})
 </script>
 
 <template>
@@ -31,11 +72,16 @@ const props = defineProps<Props>();
                 </div>
             </div>
             <!--            已加入用户列表展示-->
-            <div class="join-user-list">
+            <div v-show="showJoinTeamList" class="join-user-list">
                 <van-space>
                     <img class="user-avatar" src="@/assets/images/user-avatar-default.jpg" alt="">
                     <div class="join-team">+</div>
                 </van-space>
+            </div>
+            <div v-show="showOperationPanel" class="operation-panel">
+                <van-button plain type="danger" size="mini" v-show="showDissolveBtn" @click="onDissolve(team.id)">解散</van-button>
+                <van-button plain type="warning" size="mini" @click="onLogout(team.id)">退出</van-button>
+                <van-button plain type="success" size="mini">进入</van-button>
             </div>
         </div>
     </div>
