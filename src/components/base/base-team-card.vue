@@ -2,10 +2,12 @@
 基础队伍展示card
 -->
 <script lang="ts" setup>
-import {TeamType} from "@/types/team";
+import {JoinTeamParams, TeamType} from "@/types/team";
 import BaseResponse = BaseType.BaseResponse;
-import {delTeamAPI, postQuitTeamAPI} from "@/api/service/team.ts";
+import {delTeamAPI, postJoinTeamAPI, postQuitTeamAPI} from "@/api/service/team.ts";
 import {showFailToast, showSuccessToast} from "vant";
+import { inject } from 'vue';
+import {teamStatusEnum} from "@/constant/teamStatus.ts";
 
 interface Props {
     team: TeamType, // 队伍数据
@@ -15,34 +17,57 @@ interface Props {
     showLogoutBtn?: boolean, // 退出按钮显示
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     showJoinTeamList: true,
     showOperationPanel: false,
     showDissolveBtn: false,
     showLogoutBtn: true
 });
+// 刷新页面函数
+const reload = inject("reload");
+// 请求数据
+const fromData = ref<JoinTeamParams>({
+    teamId: props.team.id,
+    password: ""
+});
+// 控制弹窗
+const showDialog = ref<boolean>(false);
+
+// 加入队伍按钮响应事件
+const onJoinTeamBtn = async () => {
+    // 如果队伍是加密状态，则弹窗给用户输入密码
+    if (props.team.status == 2) {
+        showDialog.value = true;
+    } else {
+        // 反之直接加入
+        joinTeam();
+    }
+}
+// 加入队伍请求
+const joinTeam = async () => {
+    const res:BaseResponse<boolean> = (await postJoinTeamAPI(fromData.value)).data;
+    if (res.code == 200) {
+        showSuccessToast("加入队伍成功");
+        // 重新刷新页面
+        reload();
+    } else {
+        showSuccessToast("加入队伍失败");
+    }
+}
 
 // 解散队伍响应事件
-const onDissolve = async (teamId: number):boolean => {
+const onDissolve = async (teamId: number) => {
     const res:BaseResponse<boolean> = (await delTeamAPI(teamId)).data;
     if (res.code == 200 && res.data) {
         showSuccessToast("解散成功");
-        return true;
+        reload()
     } else {
         showFailToast("解散失败");
-        return false;
     }
 }
 // 退出队伍响应事件
 const onLogout = async (teamId: number) => {
     const res:BaseResponse<boolean> = (await postQuitTeamAPI(teamId)).data;
-    if (res.code == 200 && res.data) {
-        showSuccessToast("退出成功");
-        return true;
-    } else {
-        showFailToast("退出失败");
-        return false;
-    }
 }
 
 // 暴露给父组件使用
@@ -54,6 +79,14 @@ defineExpose({
 
 <template>
     <div class="team-card">
+        <van-dialog v-model:show="showDialog" title="入队密码" show-cancel-button @confirm="joinTeam">
+            <van-cell-group inset>
+                <van-field v-model="fromData.password" label="入队密码" placeholder="请输入入队密码"/>
+            </van-cell-group>
+        </van-dialog>
+        <p class="team-status">
+            {{ teamStatusEnum[team.status] }}
+        </p>
         <!--        队伍封面盒子-->
         <div class="cover-box">
             <img class="team-cover" src="@/assets/images/team-cover-default.png" alt="">
@@ -75,7 +108,7 @@ defineExpose({
             <div v-show="showJoinTeamList" class="join-user-list">
                 <van-space>
                     <img class="user-avatar" src="@/assets/images/user-avatar-default.jpg" alt="">
-                    <div class="join-team">+</div>
+                    <div class="join-team" @click="onJoinTeamBtn" v-if="(team.maxNum != team.joinUserCount) && !team.hasJoin">+</div>
                 </van-space>
             </div>
             <div v-show="showOperationPanel" class="operation-panel">
@@ -95,7 +128,17 @@ defineExpose({
   background-color: white;
   border-radius: 10px;
 }
-
+// 队伍状态
+.team-status {
+    position: absolute;
+    font-size: 12px;
+    text-align: center;
+    width: 30px;
+    color: white;
+    padding: 2px;
+    background-color: #ff7500;
+    box-shadow: 2px 2px 3px #ccc;
+}
 .cover-box {
   flex: 2;
   padding: 20px;

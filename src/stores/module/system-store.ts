@@ -6,7 +6,6 @@ import {getLoginUserAPI} from "@/api/service/user.ts";
 // 定义关于系统的store
 const useSystemStore = defineStore("system", () => {
     const loginUser = ref<UserType | null>();
-
     const setLoginUser = (val: UserType | null) => {
         loginUser.value = val;
         sessionStorage.setItem("user", JSON.stringify(val));

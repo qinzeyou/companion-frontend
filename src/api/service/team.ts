@@ -1,5 +1,5 @@
 import {post, get, del} from '@/api/base/base-methods.ts'
-import {AddTeamParams, TeamListByUserResponse, TeamListParams, TeamType} from "@/types/team";
+import {AddTeamParams, JoinTeamParams, TeamListByUserResponse, TeamListParams, TeamType} from "@/types/team";
 
 const BASE_API = "/team";
 
@@ -12,10 +12,17 @@ export function postTeamListAPI (params: TeamListParams) {
 }
 
 /**
- * 添加队伍
+ * 创建队伍
  */
 export function postAddTeamAPI (params: AddTeamParams) {
     return post<number>(`${BASE_API}/add`, params);
+}
+
+/**
+ * 加入队伍
+ */
+export function postJoinTeamAPI (params: JoinTeamParams) {
+    return post<boolean>(`${BASE_API}/join`, params);
 }
 
 /**

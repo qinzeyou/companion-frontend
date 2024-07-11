@@ -39,8 +39,16 @@ export function updateUserAPI(form: UserType) {
 
 /**
  * 推荐用户接口
+ * todo 后端暂未实现推荐功能，这里获取的只是分页的用户列表
+ */
+export function getRecommendUserListAPI(form: RecommendUsersParams) {
+    return get<BaseType.PageResponse<UserType[]>>(`${BASE_API}/recommend`, form)
+}
+
+/**
+ * 心动匹配用户
  *
  */
-export function getRecommendUserList(form: RecommendUsersParams) {
-    return get<BaseType.PageResponse<UserType[]>>(`${BASE_API}/recommend`, form)
+export function getMatchUserListAPI(num: number) {
+    return get<UserType[]>(`${BASE_API}/match/${num}`)
 }

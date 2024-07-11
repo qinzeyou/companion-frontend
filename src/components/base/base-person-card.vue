@@ -8,7 +8,7 @@ interface Props {
     user: UserType, // 用户数据
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <template>
@@ -21,7 +21,7 @@ const props = defineProps<Props>();
         <template #tags>
             <van-row class="tag-row" :gutter="[10, 10]">
                 <van-col v-for="tag in JSON.parse(user.tags)" :key="tag">
-                    <van-tag plain type="primary">{{ tag }}</van-tag>
+                    <van-tag plain type="danger">{{ tag }}</van-tag>
                 </van-col>
             </van-row>
         </template>
@@ -32,7 +32,5 @@ const props = defineProps<Props>();
 </template>
 
 <style scoped>
-.tag-row {
-    margin: 10px 0;
-}
+
 </style>

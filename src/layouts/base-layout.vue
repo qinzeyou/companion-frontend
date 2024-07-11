@@ -1,7 +1,17 @@
 <script lang="ts" setup>
 const router = useRouter();
+const route = useRoute();
+// 底部导航栏高亮
 const active = ref('home');
+// 页面标题
+const title = ref<string>('')
 
+// 监听引用数据类型的所有数据，不需要指定监听哪个数据，不过在引用数据量大的时候不建议使用，影响性能
+watchEffect(()=> {
+    title.value = route.meta.title as string
+})
+
+// 点击顶部导航栏返回
 const onClickLeft = () => history.back();
 // 搜索按钮点击事件
 const onSearchBtn = () => {
@@ -11,14 +21,11 @@ const onSearchBtn = () => {
 
 <template>
     <van-nav-bar
-            title="标题"
+            :title="title"
             left-arrow
             @click-left="onClickLeft"
             @click-right="onSearchBtn"
     >
-        <template #right>
-            <van-icon name="search" size="18"/>
-        </template>
     </van-nav-bar>
     <router-view class="content"/>
     <van-tabbar class="nav-bar" route v-model="active">
@@ -33,11 +40,8 @@ const onSearchBtn = () => {
 .content {
   margin: 0;
   padding: 0 0 75px 0;
-    // 动态计算内容高度 = 页面整高 - 头部
+  // 动态计算内容高度 = 页面整高 - 头部
   min-height: calc(100vh - 125px);
   background-color: $baseBgc;
 }
-//.nav-bar {
-//    margin-top: 120px;
-//}
 </style>
