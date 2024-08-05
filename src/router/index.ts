@@ -12,6 +12,7 @@ const routes = [
                 component: () => import("@/pages/home/home-index.vue"),
                 meta: {
                     title: "主页",
+                    keepAlive: true //设置页面是否需要使用缓存
                 }
             },
             {
@@ -54,6 +55,13 @@ const routes = [
                 component: () => import("@/pages/user/user-edit/user-edit.vue"),
                    meta: {
                     title: "个人信息",
+                }
+            },
+            {
+                path: '/user/tag',
+                component: () => import("@/pages/user/user-tag/user-tag.vue"),
+                meta: {
+                    title: "我的标签",
                 }
             },
             {

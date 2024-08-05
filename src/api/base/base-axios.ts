@@ -1,5 +1,7 @@
 import axios from "axios"
 import {useLoading} from "@/utils/useLoading.ts";
+import {getMessageByStatus} from "@/utils";
+import {showFailToast, showNotify} from "vant";
 
 /**
  * 基础的 axios 配置类
@@ -33,9 +35,16 @@ request.interceptors.request.use(config => {
 // 可以在接口响应后统一处理结果
 request.interceptors.response.use(response => {
         closeLoading();
+        if (response.data.code !== 200) {
+            showNotify({type: "danger", message: response.data.msg});
+        }
         return response;
     }, error => {
         closeLoading();
+        const status: number = error.response.status;
+        let message:string  = getMessageByStatus(status)
+        error.message = message;
+        showFailToast(message);
         return Promise.reject(error)
     }
 )

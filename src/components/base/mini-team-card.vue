@@ -8,7 +8,7 @@ interface Props {
     team: TeamType, // 队伍数据
 }
 
-const props = defineProps<Props>();
+defineProps<Props>();
 </script>
 
 <template>

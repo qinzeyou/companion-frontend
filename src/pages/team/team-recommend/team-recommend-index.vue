@@ -1,19 +1,15 @@
 <script lang="ts" setup>
 import {TeamType} from "@/types/team";
-import {postTeamListAPI} from "@/api/service/team.ts";
-import {showFailToast, showSuccessToast} from "vant";
+import {postPageTeamListAPI} from "@/api/service/team.ts";
 import BaseTeamCard from "@/components/base/base-team-card.vue";
 
 // 队伍列表
 const teamList = ref<TeamType[]>([])
 
 const getTeamList = async () => {
-    const res: BaseType.BaseResponse<TeamType[]> = (await postTeamListAPI({})).data;
+    const res = await postPageTeamListAPI({pageNum: 1, pageSize: 10});
     if (res.code == 200) {
-        teamList.value = res.data;
-        showSuccessToast("请求成功");
-    } else {
-        showFailToast("请求失败");
+        teamList.value = res.data.records;
     }
 }
 

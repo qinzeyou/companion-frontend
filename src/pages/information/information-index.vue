@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-
 </script>
 
 <template>
-    <p>信息页面</p>
+    <div class="information-page">
+        <p>信息页面</p>
+    </div>
 </template>
 
 <style scoped>

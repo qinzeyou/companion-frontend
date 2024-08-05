@@ -2,9 +2,7 @@
 interface Props {
     title: string
 }
-
-const props = defineProps<Props>();
-
+defineProps<Props>()
 const onClickLeft = () => history.back();
 </script>
 

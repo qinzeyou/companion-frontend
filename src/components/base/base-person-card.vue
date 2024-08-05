@@ -19,7 +19,7 @@ defineProps<Props>();
         style="background-color: white"
     >
         <template #tags>
-            <van-row class="tag-row" :gutter="[10, 10]">
+            <van-row v-if="user.tags" class="tag-row" :gutter="[10, 10]">
                 <van-col v-for="tag in JSON.parse(user.tags)" :key="tag">
                     <van-tag plain type="danger">{{ tag }}</van-tag>
                 </van-col>

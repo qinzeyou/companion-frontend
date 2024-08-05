@@ -14,7 +14,7 @@ const searchFlag = ref<boolean>(true);
 
 // 页面挂载完成钩子函数
 onMounted(async () => {
-    userList.value = (await searchUserByTagsAPI(tags)).data.data;
+    userList.value = (await searchUserByTagsAPI(tags)).data;
     searchFlag.value = userList.value.length <= 0;
 })
 </script>

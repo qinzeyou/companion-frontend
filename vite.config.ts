@@ -27,11 +27,11 @@ export default defineConfig({
                 VantResolver()
             ],
             // 导入存放的位置
-            dts: 'src/types/auto-import.d.ts',
+            dts: false,
         }),
         Components({
             // 导入存放的位置
-            dts: 'src/types/components.d.ts',
+            dts: false,
             // 配置需要自动导入的第三方UI库
             resolvers: [ElementPlusResolver(), VantResolver()],
         }),

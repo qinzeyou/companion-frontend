@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {useLoading} from "@/utils/useLoading.ts";
-import { provide,nextTick } from 'vue'
+import {provide, nextTick} from 'vue'
 
 const {hasLoading} = useLoading();
 const isRouterActive = ref(true)
@@ -10,6 +10,7 @@ provide('reload', () => {
         isRouterActive.value = true
     })
 })
+
 </script>
 
 <template>

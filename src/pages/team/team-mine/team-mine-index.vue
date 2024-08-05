@@ -2,7 +2,6 @@
 import MiniTeamCard from "@/components/base/mini-team-card.vue";
 import {TeamType} from "@/types/team";
 import {postTeamListAPI} from "@/api/service/team.ts";
-import {showFailToast, showSuccessToast} from "vant";
 
 const router = useRouter();
 const activeName = ref(['1']);
@@ -10,12 +9,9 @@ const activeName = ref(['1']);
 const teamList = ref<TeamType[]>([])
 
 const getTeamList = async () => {
-    const res: BaseType.BaseResponse<TeamType[]> = (await postTeamListAPI({})).data;
+    const res = await postTeamListAPI({});
     if (res.code == 200) {
         teamList.value = res.data;
-        showSuccessToast("请求成功");
-    } else {
-        showFailToast("请求失败");
     }
 }
 

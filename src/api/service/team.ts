@@ -1,43 +1,46 @@
 import {post, get, del} from '@/api/base/base-methods.ts'
 import {AddTeamParams, JoinTeamParams, TeamListByUserResponse, TeamListParams, TeamType} from "@/types/team";
 
-const BASE_API = "/team";
-
 /**
  * 条件查询队伍列表
  * @param params
  */
-export function postTeamListAPI (params: TeamListParams) {
-    return post<TeamType[]>(`${BASE_API}/list`, params);
+export async function postTeamListAPI (params: TeamListParams) {
+    const res = await post<TeamType[]>("/team/list", params);
+    return res.data;
 }
 
 /**
  * 创建队伍
  */
-export function postAddTeamAPI (params: AddTeamParams) {
-    return post<number>(`${BASE_API}/add`, params);
+export async function postAddTeamAPI (params: AddTeamParams) {
+    const res = await post<number>("/team/add", params);
+    return res.data;
 }
 
 /**
  * 加入队伍
  */
-export function postJoinTeamAPI (params: JoinTeamParams) {
-    return post<boolean>(`${BASE_API}/join`, params);
+export async function postJoinTeamAPI (params: JoinTeamParams) {
+    const res = await post<boolean>("/team/join", params);
+    return res.data;
 }
 
 /**
  * 获取用户加入或创建的队伍
  */
-export function getTeamListByUserAPI (userId: number) {
-    return get<TeamListByUserResponse>(`${BASE_API}/list/user/manager/${userId}`);
+export async function getTeamListByUserAPI (userId: number) {
+    const res = await get<TeamListByUserResponse>(`/team/list/user/manager/${userId}`);
+    return res.data;
 }
 
 /**
  * 退出队伍
  * @param teamId
  */
-export function postQuitTeamAPI(teamId: number) {
-    return post<boolean>(`${BASE_API}/quit`, {teamId});
+export async function postQuitTeamAPI(teamId: number) {
+    const res = await post<boolean>("/team/quit", {teamId});
+    return res.data;
 }
 
 
@@ -45,6 +48,16 @@ export function postQuitTeamAPI(teamId: number) {
  * 解散队伍
  * @param teamId
  */
-export function delTeamAPI(teamId: number) {
-    return del<boolean>(`${BASE_API}/delete/${teamId}`);
+export async function delTeamAPI(teamId: number) {
+    const res = await del<boolean>(`/team/delete/${teamId}`);
+    return res.data;
+}
+
+/**
+ * 获取分页的队伍数据
+ * @param data
+ */
+export async function postPageTeamListAPI(data: {pageNum: number, pageSize: number}) {
+    const res = await post<PageResponse<TeamType[]>>("/team/page/list", data);
+    return res.data;
 }

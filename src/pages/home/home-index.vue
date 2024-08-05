@@ -2,15 +2,15 @@
 import {UserType} from "@/types/user";
 import {getMatchUserListAPI, getRecommendUserListAPI} from "@/api/service/user.ts";
 import BasePersonCard from "@/components/base/base-person-card.vue";
-import BaseResponse = BaseType.BaseResponse;
-import PageResponse = BaseType.PageResponse;
-import {showFailToast, showSuccessToast} from "vant";
 import {useLoading} from "@/utils/useLoading.ts";
+import {showSuccessToast} from "vant";
+import HomeBanner from "@/pages/home/components/home-banner.vue";
 
 const router = useRouter();
 const recommendUserList = ref<UserType[]>([]); // 推荐用户列表
 // 控制匹配模式，true为心动模式，false为普通模式
 const isMatch = ref<boolean>(false);
+// 控制加载中提示的显示
 const {hasLoading} = useLoading();
 
 onMounted(() => {
@@ -25,25 +25,20 @@ const changeMatchMode = () => {
 
 // 获取数据
 const loadData = async () => {
-    let flag = false;
     recommendUserList.value = [];
     // 心动模式匹配
     if (isMatch.value) {
         const num = 10; // 匹配多个用户
-        const res: BaseResponse<UserType[]> = (await getMatchUserListAPI(num)).data;
+        const res = await getMatchUserListAPI(num);
         if (res.code == 200) {
             recommendUserList.value = res.data;
-            flag = true;
         }
     } else {
-        const res: BaseResponse<PageResponse<UserType[]>> = (await getRecommendUserListAPI({pageNum: 1, pageSize:8})).data;
+        const res = await getRecommendUserListAPI({pageNum: 1, pageSize: 8});
         if (res.code == 200) {
             recommendUserList.value = res.data.records;
-            flag = true;
         }
     }
-    if (flag) showSuccessToast("请求成功");
-    else showFailToast("请求失败");
 }
 // 搜索按钮点击事件
 const onSearchBtn = () => {
@@ -61,9 +56,11 @@ const onSearchBtn = () => {
                 <van-icon name="search" size="24" @click="onSearchBtn"/>
             </div>
         </div>
+        <HomeBanner />
         <div class="home-content">
             <div class="search-result">
-                <van-empty v-if="recommendUserList.length <= 0 && !hasLoading" image="search" description="暂无搜索结果" />
+                <van-empty v-if="recommendUserList.length <= 0 && !hasLoading" image="search"
+                           description="暂无搜索结果"/>
                 <van-row :gutter="[20, 20]">
                     <van-col span="24" v-for="user in recommendUserList" :key="user.id">
                         <BasePersonCard :user="user"/>
@@ -84,9 +81,11 @@ const onSearchBtn = () => {
     padding: 0 20px;
     background-color: #177cb0;
     color: white;
+
     .left {
         flex: 5;
     }
+
     .right {
         flex: 5;
         display: flex;

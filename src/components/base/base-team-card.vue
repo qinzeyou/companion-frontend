@@ -5,7 +5,6 @@
 import {JoinTeamParams, TeamType} from "@/types/team";
 import BaseResponse = BaseType.BaseResponse;
 import {delTeamAPI, postJoinTeamAPI, postQuitTeamAPI} from "@/api/service/team.ts";
-import {showFailToast, showSuccessToast} from "vant";
 import { inject } from 'vue';
 import {teamStatusEnum} from "@/constant/teamStatus.ts";
 
@@ -24,7 +23,7 @@ const props = withDefaults(defineProps<Props>(), {
     showLogoutBtn: true
 });
 // 刷新页面函数
-const reload = inject("reload");
+const reload:any = inject("reload");
 // 请求数据
 const fromData = ref<JoinTeamParams>({
     teamId: props.team.id,
@@ -45,29 +44,23 @@ const onJoinTeamBtn = async () => {
 }
 // 加入队伍请求
 const joinTeam = async () => {
-    const res:BaseResponse<boolean> = (await postJoinTeamAPI(fromData.value)).data;
+    const res = await postJoinTeamAPI(fromData.value);
     if (res.code == 200) {
-        showSuccessToast("加入队伍成功");
         // 重新刷新页面
         reload();
-    } else {
-        showSuccessToast("加入队伍失败");
     }
 }
 
 // 解散队伍响应事件
 const onDissolve = async (teamId: number) => {
-    const res:BaseResponse<boolean> = (await delTeamAPI(teamId)).data;
+    const res = await delTeamAPI(teamId);
     if (res.code == 200 && res.data) {
-        showSuccessToast("解散成功");
         reload()
-    } else {
-        showFailToast("解散失败");
     }
 }
 // 退出队伍响应事件
 const onLogout = async (teamId: number) => {
-    const res:BaseResponse<boolean> = (await postQuitTeamAPI(teamId)).data;
+    await postQuitTeamAPI(teamId);
 }
 
 // 暴露给父组件使用
@@ -107,7 +100,15 @@ defineExpose({
             <!--            已加入用户列表展示-->
             <div v-show="showJoinTeamList" class="join-user-list">
                 <van-space>
-                    <img class="user-avatar" src="@/assets/images/user-avatar-default.jpg" alt="">
+                    <van-image
+                        v-if="team.joinUserList && team.joinUserList.length >= 1"
+                        v-for="user in team.joinUserList"
+                        :key="user.id"
+                        round
+                        width="35px"
+                        height="35px"
+                        :src="user.avatarUrl"
+                    />
                     <div class="join-team" @click="onJoinTeamBtn" v-if="(team.maxNum != team.joinUserCount) && !team.hasJoin">+</div>
                 </van-space>
             </div>

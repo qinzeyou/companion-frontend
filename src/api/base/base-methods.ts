@@ -7,8 +7,8 @@ import qs from 'qs';
  * 常用 axios 方法封装
  */
 
-export function get<T>(url: string, params?: any): Promise<AxiosResponse<BaseType.BaseResponse<T>>> {
-    return request.get<BaseType.BaseResponse<T>>(url, {
+export function get<T>(url: string, params?: any): Promise<AxiosResponse<BaseResponse<T>>> {
+    return request.get<BaseResponse<T>>(url, {
         params,
         // paramsSerializer：用于在发送请求之前序列化查询参数
         paramsSerializer: function (params) {
@@ -18,15 +18,15 @@ export function get<T>(url: string, params?: any): Promise<AxiosResponse<BaseTyp
     });
 }
 
-export function post<T>(url: string, data?: any): Promise<AxiosResponse<BaseType.BaseResponse<T>>> {
-    return request.post<BaseType.BaseResponse<T>>(url, data);
+export function post<T>(url: string, data?: any): Promise<AxiosResponse<BaseResponse<T>>> {
+     return request.post<BaseResponse<T>>(url, data);
 }
 
-export function put<T>(url: string, data?: any): Promise<AxiosResponse<BaseType.BaseResponse<T>>> {
-    return request.put<BaseType.BaseResponse<T>>(url, data);
+export function put<T>(url: string, data?: any): Promise<AxiosResponse<BaseResponse<T>>> {
+    return request.put<BaseResponse<T>>(url, data);
 }
 
-export function del<T>(url: string, params?: any): Promise<AxiosResponse<BaseType.BaseResponse<T>>> {
-    return request.delete<BaseType.BaseResponse<T>>(url, { params });
+export function del<T>(url: string, params?: any): Promise<AxiosResponse<BaseResponse<T>>> {
+    return request.delete<BaseResponse<T>>(url, { params });
 }
 

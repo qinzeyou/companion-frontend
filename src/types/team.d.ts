@@ -14,7 +14,8 @@ export type TeamType = {
     createUser: UserType;
     teamCover?: string;
     joinUserCount?: number;
-    hasJoin?: boolean
+    hasJoin?: boolean;
+    joinUserList: UserType[];
 }
 
 /**

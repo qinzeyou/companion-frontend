@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import {AddTeamParams} from "@/types/team";
 import {postAddTeamAPI} from "@/api/service/team.ts";
-import {showFailToast} from "vant";
 import {getLoginUserAPI} from "@/api/service/user.ts";
 
 const router = useRouter();
@@ -18,8 +17,8 @@ const showPicker = ref(false);
 const formData = ref<AddTeamParams>({...initData});
 
 onMounted(async () => {
-    const {data} = await getLoginUserAPI();
-    if (data.code != 200 || data.data == null) {
+    const res = await getLoginUserAPI();
+    if (res.code != 200 || res.data == null) {
         router.push({
             path: "/login",
             replace: true
@@ -27,21 +26,19 @@ onMounted(async () => {
     }
 })
 
-const onConfirm = ({selectedValues}) => {
+const onConfirm = ({selectedValues}:{selectedValues:any}) => {
     formData.value.expireTime = selectedValues.join('-');
     formData.value.expireTime += " 00:00:00";
     showPicker.value = false;
 };
 
 const onSubmit = async () => {
-    const res: BaseType.BaseResponse<number> = (await postAddTeamAPI(formData.value)).data;
+    const res = await postAddTeamAPI(formData.value);
     if (res.code == 200) {
         router.push({
             path: "/team",
             replace: true
         })
-    } else {
-        showFailToast("创建队伍失败");
     }
 }
 </script>

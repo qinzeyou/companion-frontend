@@ -4,11 +4,9 @@ import {getTeamListByUserAPI} from "@/api/service/team.ts";
 import {getLoginUserAPI} from "@/api/service/user.ts";
 import {UserType} from "@/types/user";
 import BaseResponse = BaseType.BaseResponse;
-import {showFailToast, showSuccessToast} from "vant";
 import BaseTeamCard from "@/components/base/base-team-card.vue";
 
 const userTeamList = ref<TeamListByUserResponse>(<TeamListByUserResponse>{});
-const teamCardRef = ref();
 const loading = ref(false);
 const onRefresh = async () => {
     await getUserTeamList();
@@ -17,19 +15,17 @@ const onRefresh = async () => {
 
 const getUserTeamList = async () => {
     // 获取当前登录用户信息
-    const getLoginUserRes:BaseResponse<UserType> = (await getLoginUserAPI()).data;
+    const getLoginUserRes = await getLoginUserAPI();
     if (getLoginUserRes.code == 200) {
         const userId = getLoginUserRes.data.id;
-        const getTeamListRes: BaseResponse<TeamListByUserResponse> = (await getTeamListByUserAPI(userId)).data;
+        const getTeamListRes = await getTeamListByUserAPI(userId);
         if (getTeamListRes.code == 200) {
             userTeamList.value = getTeamListRes.data;
-            showSuccessToast("请求成功");
             return
         }
     }
-    showFailToast("请求失败");
 }
-onMounted(async ()=> {
+onMounted(async () => {
     await getUserTeamList();
 })
 </script>
@@ -42,7 +38,8 @@ onMounted(async ()=> {
             </van-divider>
             <van-row :gutter="[20, 20]">
                 <van-col span="24" v-for="team in userTeamList.createTeamList" :key="team.id">
-                    <BaseTeamCard :team="team" :showJoinTeamList="false" :showOperationPanel="true" :showDissolveBtn="true"/>
+                    <BaseTeamCard :team="team" :showJoinTeamList="false" :showOperationPanel="true"
+                                  :showDissolveBtn="true"/>
                 </van-col>
             </van-row>
             <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }">

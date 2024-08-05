@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import TeamRecommendIndex from "@/pages/team/team-recommend/team-recommend-index.vue";
 import TeamSearchIndex from "@/pages/team/team-search/team-search-index.vue";
-import TeamMineIndex from "@/pages/team/team-mine/team-mine-index.vue";
 
 const activeTab = ref<string>('recommend');
 
