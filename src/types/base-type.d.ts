@@ -13,3 +13,11 @@ type PageResponse<T> = {
     size: number,
     total: number
 }
+
+/**
+ * 通用分页请求参数
+ */
+export interface PageRequest {
+    pageNum: number = 1;
+    pageSize: number = 10;
+}
