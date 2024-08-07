@@ -5,6 +5,7 @@ export interface TagType {
     id: number;
     tagName: string;
     userId: number;
+    weight: number;
     parentId?: number;
     isParent: boolean;
     color?: string;
@@ -34,4 +35,6 @@ export interface UserTag extends TagType {
 export interface postAddUserTag {
     tagId: number;
     weight: number;
+    color?: string;
+    textColor?: string;
 }

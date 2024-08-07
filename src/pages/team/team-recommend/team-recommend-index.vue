@@ -1,13 +1,13 @@
 <script lang="ts" setup>
 import {TeamType} from "@/types/team";
-import {postPageTeamListAPI} from "@/api/service/team.ts";
+import {teamRecommendPageAPI} from "@/api/service/team.ts";
 import BaseTeamCard from "@/components/base/base-team-card.vue";
 
 // 队伍列表
 const teamList = ref<TeamType[]>([])
 
 const getTeamList = async () => {
-    const res = await postPageTeamListAPI({pageNum: 1, pageSize: 10});
+    const res = await teamRecommendPageAPI({pageNum: 1, pageSize: 10});
     if (res.code == 200) {
         teamList.value = res.data.records;
     }

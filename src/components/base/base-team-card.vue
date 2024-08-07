@@ -3,7 +3,6 @@
 -->
 <script lang="ts" setup>
 import {JoinTeamParams, TeamType} from "@/types/team";
-import BaseResponse = BaseType.BaseResponse;
 import {delTeamAPI, postJoinTeamAPI, postQuitTeamAPI} from "@/api/service/team.ts";
 import { inject } from 'vue';
 import {teamStatusEnum} from "@/constant/teamStatus.ts";

@@ -1,3 +1,5 @@
+import dayjs from "dayjs"
+
 /**
  * 根据状态码返回提示
  * @param status
@@ -44,4 +46,24 @@ export function getMessageByStatus (status: number) {
             message = `连接出错(${status})!`;
     }
     return message;
+}
+/**
+ * 格式化当前时间
+ */
+export const nowDateTime = dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")
+/**
+ * 获取当前日期
+ * @returns 数组格式：['2024', '08', '07']
+ */
+export const getCurrentDate = () => {
+    const date = dayjs(new Date()).format("YYYY-MM-DD")
+    return date.split("-");
+}
+/**
+ * 获取当前时间（时:分）
+ * @returns 数组格式：['20', '45']
+ */
+export const getCurrentTime = () => {
+    const time = dayjs(new Date()).format("HH-mm")
+    return time.split("-")
 }

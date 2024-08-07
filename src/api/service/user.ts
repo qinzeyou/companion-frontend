@@ -1,12 +1,13 @@
 import {get, post, put} from '@/api/base/base-methods.ts'
+import { PageResponse } from '@/types/base-type';
 import {LoginParams, RecommendUsersParams, UserType} from "@/types/user";
 
 /**
  * 根据标签数组 查询用户数据
  * @param tagNameList
  */
-export async function searchUserByTagsAPI (tagNameList: string[]) {
-    const res = await get<UserType[]>("/user/search/tags", {tagNameList});
+export async function searchUserByTagIdsAPI (tagIdList: number[]) {
+    const res = await get<UserType[]>("/user/search/tagIds", {tagIdList});
     return res.data;
 }
 

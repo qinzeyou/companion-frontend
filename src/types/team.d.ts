@@ -21,7 +21,7 @@ export type TeamType = {
 /**
  * 查询队伍列表请求参数
  */
-export type TeamListParams = {
+export type searchPageTeamData = {
     searchText?: string;
     expireTime?: Date;
     id?: number;
@@ -37,12 +37,14 @@ export type TeamListParams = {
  * 添加队伍请求参数
  */
 export type AddTeamParams = {
+    userId: number;
     name: string;
-    description: string;
-    expireTime: string;
+    description?: string;
+    expireTime?: string;
     maxNum: number;
-    password: string;
+    password?: string;
     status: number;
+    teamCover: string;
 }
 
 /**

@@ -3,9 +3,12 @@ import { UserType } from "@/types/user";
 import { TagType, postAddUserTag } from "@/types/tag";
 import { getLoginUserAPI } from "@/api/service/user.ts";
 import { showToast } from "vant/lib/toast";
-import { hotTagPageAPI, removeUserTagAPI } from "@/api/service/tag";
+import { addUserTagAPI, removeUserTagAPI } from "@/api/service/user-tag";
+import { hotTagPageAPI } from "@/api/service/tag";
 import { showSuccessToast } from "vant/es";
 import { showConfirmDialog } from 'vant';
+import PickColors from 'vue-pick-colors';
+
 
 // 当前登录信息
 const loginUser = ref<UserType>({} as UserType);
@@ -18,7 +21,9 @@ const showAddTagPopup = ref<boolean>(false);
 // 用户添加标签到自身的请求体
 const addUserTagForm = ref<postAddUserTag>({
     tagId: 0,
-    weight: 1
+    weight: 1,
+    color: '#ff4500',
+    textColor: '#ff4500'
 });
 const username = ref('');
 const selectTagName = ref('');
@@ -30,6 +35,16 @@ const getCurrentUserData = async () => {
         loginUser.value = res.data;
     }
 }
+// 用户添加标签点击事件
+const addUserTag = async () => {
+    const res = await addUserTagAPI(addUserTagForm.value);
+    if (res.code == 200) {
+        showSuccessToast("添加成功");
+        showAddTagPopup.value = false;
+        await getCurrentUserData();
+        await getHotTagPageData();
+    }
+}
 // 用户移除身上的单个标签
 const removeUserTag = (tagId: number) => {
     showConfirmDialog({
@@ -37,10 +52,11 @@ const removeUserTag = (tagId: number) => {
         message:
             '确认移除该标签吗？',
     }).then(async () => {
-       const res = await removeUserTagAPI({tagId});
+        const res = await removeUserTagAPI(tagId);
         if (res.code == 200) {
             showSuccessToast("移除成功");
             await getCurrentUserData();
+            await getHotTagPageData();
         }
     })
 }
@@ -61,7 +77,6 @@ const otherTagClick = (tag: TagType) => {
     showAddTagPopup.value = true;
 }
 
-
 onMounted(async () => {
     await getCurrentUserData();
     await getHotTagPageData();
@@ -74,9 +89,9 @@ onMounted(async () => {
             style="background-color: white">
             <template #tags>
                 <van-row v-if="loginUser.tags" class="tag-row" :gutter="[10, 10]">
-                    <van-col v-for="item in loginUser.userTags" :key="item.tag.id">
-                        <van-tag plain type="danger" :color="item.tag.color ? item.tag.color : ''"
-                            :text-color="item.tag.textColor ? item.tag.textColor : ''">{{ item.tag.tagName }}</van-tag>
+                    <van-col v-for="tag in loginUser.userTags" :key="tag.id">
+                        <van-tag plain type="danger" :color="tag.color ? tag.color : ''"
+                            :text-color="tag.textColor ? tag.textColor : ''">{{ tag.tagName }}</van-tag>
                     </van-col>
                 </van-row>
             </template>
@@ -90,9 +105,9 @@ onMounted(async () => {
             </van-divider>
             <div class="my-tag">
                 <van-row :gutter="[0, 20]">
-                    <van-col span="6" v-for="item in loginUser.userTags" :key="item.tag.id" style="text-align: center">
-                        <van-tag closeable plain type="primary" size="medium" @close="removeUserTag(item.tag.id)">{{
-                            item.tag.tagName }}</van-tag>
+                    <van-col span="6" v-for="tag in loginUser.userTags" :key="tag.id" style="text-align: center">
+                        <van-tag closeable plain type="primary" size="medium" @close="removeUserTag(tag.id)">{{
+                            tag.tagName }}</van-tag>
                     </van-col>
                 </van-row>
             </div>
@@ -116,7 +131,7 @@ onMounted(async () => {
                 </div>
             </div>
         </div>
-        <van-popup closeable close-icon="close" v-model:show="showAddTagPopup" position="bottom" :style="{ height: '50%' }">
+        <van-popup closeable close-icon="close" v-model:show="showAddTagPopup" position="bottom" :style="{ height: '60%' }">
             <div style="padding: 50px 0;">
                 <van-form>
                     <van-cell-group inset>
@@ -126,11 +141,22 @@ onMounted(async () => {
                                 <van-stepper :min="1" :max="100" v-model="addUserTagForm.weight" />
                             </template>
                         </van-field>
-                        <van-field v-model="username" label="文字颜色" placeholder="标签文字颜色" />
-                        <van-field v-model="username" label="背景" placeholder="标签背景颜色" />
+                        <van-field style="display: flex;align-items: center;" v-model="username" label="文字颜色"
+                            placeholder="标签文字颜色">
+                            <template #input>
+                                <van-field v-model="addUserTagForm.textColor" placeholder="请输入用户名" />
+                                <pick-colors v-model:value="addUserTagForm.textColor" :z-index="9999" />
+                            </template>
+                        </van-field>
+                        <van-field v-model="username" label="背景颜色" placeholder="标签背景颜色">
+                            <template #input>
+                                <van-field v-model="addUserTagForm.color" placeholder="请输入用户名" />
+                                <pick-colors v-model:value="addUserTagForm.color" :z-index="9999" />
+                            </template>
+                        </van-field>
                     </van-cell-group>
                     <div style="margin: 16px;">
-                        <van-button round block type="primary" native-type="submit">
+                        <van-button round block type="primary" @click="addUserTag">
                             添加
                         </van-button>
                     </div>

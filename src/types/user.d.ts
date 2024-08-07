@@ -1,4 +1,5 @@
 import {UserTag} from "@/types/tag";
+import { TagType } from "@/types/tag";
 
 /**
  * 用户类型
@@ -15,7 +16,7 @@ export type UserType = {
     userRole: number;
     tags: string;
     profile: string;
-    userTags: UserTag[];
+    userTags: TagType[];
     createTime: Date;
 }
 

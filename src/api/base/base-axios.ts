@@ -36,7 +36,8 @@ request.interceptors.request.use(config => {
 request.interceptors.response.use(response => {
         closeLoading();
         if (response.data.code !== 200) {
-            showNotify({type: "danger", message: response.data.msg});
+            const message = response.data.description != '' ? response.data.description : response.data.msg;
+            showNotify({type: "danger", message});
         }
         return response;
     }, error => {

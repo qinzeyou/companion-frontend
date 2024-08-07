@@ -1,12 +1,13 @@
 import {post, get, del} from '@/api/base/base-methods.ts'
-import {AddTeamParams, JoinTeamParams, TeamListByUserResponse, TeamListParams, TeamType} from "@/types/team";
+import { PageRequest, PageResponse } from '@/types/base-type';
+import {AddTeamParams, JoinTeamParams, TeamListByUserResponse, searchPageTeamData, TeamType} from "@/types/team";
 
 /**
  * 条件查询队伍列表
  * @param params
  */
-export async function postTeamListAPI (params: TeamListParams) {
-    const res = await post<TeamType[]>("/team/list", params);
+export async function searchPageTeamAPI (data: searchPageTeamData) {
+    const res = await post<TeamType[]>("/search/page", data);
     return res.data;
 }
 
@@ -57,7 +58,17 @@ export async function delTeamAPI(teamId: number) {
  * 获取分页的队伍数据
  * @param data
  */
-export async function postPageTeamListAPI(data: {pageNum: number, pageSize: number}) {
+export async function postPageTeamListAPI(data: PageRequest) {
     const res = await post<PageResponse<TeamType[]>>("/team/page/list", data);
+    return res.data;
+}
+
+/**
+ * 分页推荐队伍数据
+ * @param data 分页请求体
+ * @returns 推荐的分页队伍数据
+ */
+export async function teamRecommendPageAPI(data: PageRequest) {
+    const res = await post<PageResponse<TeamType[]>>("/team/recommend/page", data);
     return res.data;
 }
