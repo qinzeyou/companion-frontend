@@ -67,3 +67,61 @@ export const getCurrentTime = () => {
     const time = dayjs(new Date()).format("HH-mm")
     return time.split("-")
 }
+
+// debounce.ts
+export function debounce<T extends (...args: any[]) => any>(
+    func: T,
+    wait: number,
+    immediate: boolean = false
+): (...args: Parameters<T>) => void {
+    let timeout: NodeJS.Timeout | null = null;
+
+    return function(this: any, ...args: Parameters<T>) {
+        const context = this;
+
+        if (timeout !== null) {
+            clearTimeout(timeout);
+        }
+
+        if (immediate && !timeout) {
+            func.apply(context, args);
+        }
+
+        timeout = setTimeout(() => {
+            timeout = null;
+            if (!immediate) {
+                func.apply(context, args);
+            }
+        }, wait);
+    };
+}
+
+// throttle.ts
+export function throttle<T extends (...args: any[]) => any>(
+    func: T,
+    limit: number
+): (...args: Parameters<T>) => void {
+    let lastFunc: number | null = null;
+    let lastRan: number;
+
+    return function(this: any, ...args: Parameters<T>) {
+        const context = this;
+        const now = Date.now();
+
+        if (!lastRan) {
+            func.apply(context, args);
+            lastRan = now;
+        } else {
+            // @ts-ignore
+            clearTimeout(lastFunc as NodeJS.Timeout);
+
+            // @ts-ignore
+            lastFunc = setTimeout(function() {
+                if ((now - lastRan) >= limit) {
+                    func.apply(context, args);
+                    lastRan = now;
+                }
+            }, limit - (now - lastRan));
+        }
+    };
+}

@@ -20,3 +20,13 @@ export async function treeTagAPI() {
     const res = await get<TreeTag>('/tag/tree');
     return res.data;
 }
+
+/**
+ * 条件查询标签
+ * @param data 查询条件对象
+ * @returns 符合条件的标签
+ */
+export async function searchTagListAPI(data: { tagName: string }) {
+    const res = await post<TagType[]>("/tag/search/list", data);
+    return res.data;
+}

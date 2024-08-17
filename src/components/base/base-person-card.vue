@@ -19,9 +19,9 @@ defineProps<Props>();
         style="background-color: white"
     >
         <template #tags>
-            <van-row v-if="user.tags" class="tag-row" :gutter="[20, 0]">
+            <van-row v-if="user.userTags" class="tag-row" :gutter="[20, 0]">
                 <van-col v-for="tag in user.userTags" :key="tag.id">
-                    <van-tag plain type="danger">{{ tag.tagName }}</van-tag>
+                    <van-tag plain type="danger" :color="tag.color" :text-color="tag.textColor">{{ tag.tagName }}</van-tag>
                 </van-col>
             </van-row>
         </template>

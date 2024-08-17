@@ -1,12 +1,9 @@
 <script lang="ts" setup>
 import { teamRecommendPageAPI } from "@/api/service/team";
-import TeamRecommendIndex from "@/pages/team/team-recommend/team-recommend-index.vue";
-import TeamSearchIndex from "@/pages/team/team-search/team-search-index.vue";
 import { TeamType } from "@/types/team";
 
 const router = useRouter();
 
-const activeTab = ref<string>('recommend');
 const offset = ref({ x: 300, y: 550 });
 const value1 = ref(0);
 const value2 = ref('a');
@@ -16,8 +13,8 @@ const option1 = [
 ];
 const option2 = [
     { text: '默认排序', value: 'a' },
-    { text: '好评排序', value: 'b' },
-    { text: '或缺排序', value: 'c' },
+    { text: '评分优先', value: 'b' },
+    { text: '活跃优先', value: 'c' },
 ];
 const onClick = () => {
     router.push("/team/add")
