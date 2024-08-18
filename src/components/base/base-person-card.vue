@@ -11,6 +11,17 @@ interface Props {
 }
 
 defineProps<Props>();
+const router = useRouter();
+
+// 点击联系我，携带该用户id前往展示用户信息页
+const toUserInfo = (userId: number) => {
+    router.push({
+        path: '/show/userInfo',
+        query: {
+            userId
+        }
+    })
+}
 </script>
 
 <template>
@@ -31,7 +42,7 @@ defineProps<Props>();
             </van-row>
         </template>
         <template #footer>
-            <van-button size="mini" type="primary">联系我</van-button>
+            <van-button size="mini" type="primary" @click="toUserInfo(user.id)">联系我</van-button>
         </template>
     </van-card>
 </template>

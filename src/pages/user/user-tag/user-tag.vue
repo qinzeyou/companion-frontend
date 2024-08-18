@@ -7,6 +7,7 @@ import {hotTagPageAPI, searchTagListAPI} from "@/api/service/tag";
 import {showSuccessToast} from "vant/es";
 import {showConfirmDialog} from "vant";
 import PickColors from "vue-pick-colors";
+import {navTo} from "@/utils";
 
 // 当前登录信息
 const loginUser = ref<UserType>({} as UserType);
@@ -31,7 +32,8 @@ const getCurrentUserData = async () => {
     const res = await getLoginUserAPI();
     if (res.code == 200 && res.data) {
         loginUser.value = res.data;
-        console.log(loginUser.value)
+    } else {
+        navTo('/login');
     }
 };
 // 用户添加标签点击事件
@@ -124,7 +126,6 @@ onMounted(async () => {
             <div class="card">
                 <van-search
                         show-action
-                        background="none"
                         v-model="searchText"
                         placeholder="请输入搜索关键词"
                 >

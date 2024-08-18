@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-import useSystemStore from "@/stores/module/system-store.ts";
-import {useThrottleFn} from "@vueuse/core";
-
 const router = useRouter();
 const route = useRoute();
 // 底部导航栏高亮
@@ -43,10 +40,10 @@ const onSearchBtn = () => {
             >队伍
             </van-tabbar-item
             >
-<!--            <van-tabbar-item to="/information" name="team" icon="chat-o" badge="5"-->
-<!--            >信息-->
-<!--            </van-tabbar-item-->
-<!--            >-->
+            <van-tabbar-item to="/information" name="team" icon="chat-o" badge="5"
+            >信息
+            </van-tabbar-item
+            >
             <van-tabbar-item to="/user" name="user" icon="manager-o"
             >个人
             </van-tabbar-item
@@ -61,6 +58,7 @@ const onSearchBtn = () => {
     display: flex;
     flex-direction: column;
 }
+
 .content {
     //margin: 0;
     padding: 0 0 75px 0;

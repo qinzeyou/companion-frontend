@@ -12,9 +12,7 @@ import 'vant/es/dialog/style';
 import setupPlugins from "@/plugins";
 // 引入全局CSS样式文件
 import "@/assets/css/index.scss";
-import { Lazyload } from 'vant';
 
 const app = createApp(App);
 app.use(setupPlugins);
-app.use(Lazyload);
 app.mount('#app')

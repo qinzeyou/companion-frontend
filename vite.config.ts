@@ -6,6 +6,8 @@ import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver, VantResolver } from 'unplugin-vue-components/resolvers'
 import { resolve } from 'path'
+// 代码分析插件
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
     server: {
@@ -18,6 +20,9 @@ export default defineConfig({
     },
     plugins: [
         vue(),
+        visualizer({
+            open:true
+        }),
         AutoImport({
             // 配置需要自动导入的模块
             imports: ['vue', 'vue-router', "pinia",],
@@ -55,7 +60,10 @@ export default defineConfig({
     // 构建配置
     build: {
         chunkSizeWarningLimit: 2000, // 消除打包大小超过500kb警告
-        minify: "terser", // Vite 2.6.x 以上需要配置 minify: "terser", terserOptions 才能生效
+        minify: "terser", //是否禁用最小化混淆，esbuild打包速度最快，terser打包体积最小。
+        cssCodeSplit:true, //css 拆分
+        sourcemap:false, //不生成sourcemap
+        assetsInlineLimit:5000, //小于该值 图片将打包成Base64
         terserOptions: {
             compress: {
                 keep_infinity: true, // 防止 Infinity 被压缩成 1/0，这可能会导致 Chrome 上的性能问题

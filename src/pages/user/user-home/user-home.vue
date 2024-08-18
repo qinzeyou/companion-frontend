@@ -62,7 +62,7 @@ const logout = async () => {
             <van-cell icon="contact-o" size="large" title="个人信息" is-link to="/user/edit"/>
             <van-cell icon="list-switch" size="large" title="管理队伍" is-link to="/user/team/manager"/>
             <van-cell icon="idcard" size="large" title="我的标签" is-link to="/user/tag"/>
-            <van-cell icon="setting-o" size="large" title="设置" is-link/>
+            <van-cell icon="setting-o" size="large" title="设置" is-link to="/setting"/>
         </div>
         <!--        退出栏-->
         <div class="logout">

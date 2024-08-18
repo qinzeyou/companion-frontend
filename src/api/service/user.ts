@@ -74,3 +74,11 @@ export async function postUserLogoutAPI() {
     const res = await post<null>("/user/logout");
     return res.data;
 }
+
+/**
+ * 根据用户id获取用户信息
+ */
+export async function getUserInfoByIdAPI(params: {userId: number}) {
+    const res = await get<UserType>('/user/getUserInfo', params);
+    return res.data;
+}

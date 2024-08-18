@@ -96,8 +96,9 @@ defineExpose({
         <div class="cover-box">
             <img
                     class="team-cover"
-                    :src="team.teamCover"
-                    alt=""
+                    :data-index="team.teamCover"
+                    alt="team-cover"
+                    v-lazy-img="team.teamCover"
             />
         </div>
         <!--        队伍内容介绍-->

@@ -51,6 +51,13 @@ const routes = [
         },
       },
       {
+        path: "/show/userInfo",
+        component: () => import("@/components/show-user-info.vue"),
+        meta: {
+          title: "用户信息",
+        },
+      },
+      {
         path: "/user/edit",
         component: () => import("@/pages/user/user-edit/user-edit.vue"),
         meta: {
@@ -76,6 +83,20 @@ const routes = [
         component: () => import("@/pages/information/information-index.vue"),
         meta: {
           title: "信息",
+        },
+      },
+      {
+        path: "/setting",
+        component: () => import("@/pages/setting/index.vue"),
+        meta: {
+          title: "设置",
+        },
+      },
+      {
+        path: "/notice",
+        component: () => import("@/pages/notice/index.vue"),
+        meta: {
+          title: "系统公告",
         },
       },
     ],
