@@ -18,10 +18,6 @@ const images = [
     {
         index: 4,
         url: "http://shq2sf8gm.hn-bkt.clouddn.com/images/banner-4.png"
-    },
-    {
-        index: 5,
-        url: "http://shq2sf8gm.hn-bkt.clouddn.com/images/banner-5.png"
     }
 ]
 </script>

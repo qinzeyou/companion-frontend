@@ -1,6 +1,11 @@
-export default {
-    mounted(el: HTMLElement, binding:any) {
-        const fn = binding.value
+import { Directive, DirectiveBinding } from "vue";
+
+/**
+ * 触底加载
+ */
+export const loadMore: Directive = {
+    mounted(el: HTMLElement, binding: DirectiveBinding) {
+        const fn = binding.value;
 
         function handleScroll() {
             const scrollHeight = el.scrollHeight
@@ -8,7 +13,6 @@ export default {
             const scrollTop = el.scrollTop
 
             if (scrollHeight - offsetHeight - scrollTop === 0) {
-                console.log(scrollHeight, offsetHeight, scrollTop)
                 fn()
             }
         }

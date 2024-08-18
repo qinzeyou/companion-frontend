@@ -18,6 +18,7 @@ const request = axios.create({
 // 全局设置 axios 发送请求带上cookie
 request.defaults.withCredentials = true;
 
+// 控制加载动画
 const {openLoading, closeLoading} = useLoading();
 
 // request 拦截器

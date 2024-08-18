@@ -25,15 +25,14 @@ const onSearchBtn = () => {
 <template>
     <div class="root">
         <van-nav-bar
+                class="nav-bar"
                 :title="title"
                 left-arrow
                 @click-left="onClickLeft"
                 @click-right="onSearchBtn"
         >
         </van-nav-bar>
-        <div>
-            <router-view class="content"/>
-        </div>
+        <router-view class="content"/>
         <van-back-top right="15vw" bottom="10vh"/>
         <van-tabbar class="nav-bar" route v-model="active">
             <van-tabbar-item to="/home" name="home" icon="home-o"
@@ -44,10 +43,10 @@ const onSearchBtn = () => {
             >队伍
             </van-tabbar-item
             >
-            <van-tabbar-item to="/information" name="team" icon="chat-o" badge="5"
-            >信息
-            </van-tabbar-item
-            >
+<!--            <van-tabbar-item to="/information" name="team" icon="chat-o" badge="5"-->
+<!--            >信息-->
+<!--            </van-tabbar-item-->
+<!--            >-->
             <van-tabbar-item to="/user" name="user" icon="manager-o"
             >个人
             </van-tabbar-item
@@ -59,17 +58,14 @@ const onSearchBtn = () => {
 <style lang="scss" scoped>
 .root {
     height: 100vh;
-    overflow: auto;
-    //height: 100%;
-    background-color: $baseBgc;
+    display: flex;
+    flex-direction: column;
 }
-
-//
 .content {
-    margin: 0;
+    //margin: 0;
     padding: 0 0 75px 0;
     // 动态计算内容高度 = 页面整高 - 头部
-    min-height: calc(100vh - 125px);
-    //background-color: $baseBgc;
+    flex: 1;
+    background-color: $baseBgc;
 }
 </style>

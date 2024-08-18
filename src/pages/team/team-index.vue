@@ -4,7 +4,7 @@ import { TeamType } from "@/types/team";
 
 const router = useRouter();
 
-const offset = ref({ x: 300, y: 550 });
+const offset = ref({ x: 350, y: 750 });
 const value1 = ref(0);
 const value2 = ref('a');
 const option1 = [

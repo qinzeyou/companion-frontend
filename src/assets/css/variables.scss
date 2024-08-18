@@ -2,4 +2,24 @@
 $baseBgc: #fbfaff;
 
 // 文字颜色
-$text-secondary: rgba(108,117,125)
+$text-secondary: rgba(108,117,125);
+
+:root {
+    /* 黑色 */
+    --black-color-1: #f5f5f5;
+    --black-color-2: #f0f0f0;
+    --black-color-3: #d9d9d9;
+    --black-color-4: #bfbfbf;
+    --black-color-5: #8c8c8c;
+    --black-color-6: #595959;
+    --black-color-7: #434343;
+    --black-color-8: #262626;
+    --black-color-9: #1f1f1f;
+    --black-color-10: #141414;
+
+    --primary-color: #1890ff;
+
+    /* 线条颜色 */
+    /* 下划线颜色 */
+    --bottom-line: #0e151c1a;
+}

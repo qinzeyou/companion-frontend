@@ -52,8 +52,8 @@ const logout = async () => {
                 <van-col class="person" span="16">
                     <!--                    昵称-->
                     <p class="person-username">{{ loginUser?.username }} </p>
-                    <!--                    电话-->
-                    <p class="person-phone">{{ loginUser?.phone }} </p>
+                    <!--                    自我简介-->
+                    <p class="person-phone">{{ loginUser?.profile }} </p>
                 </van-col>
             </van-row>
         </div>

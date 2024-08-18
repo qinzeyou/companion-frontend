@@ -1,12 +1,12 @@
 import {get, post, put} from '@/api/base/base-methods.ts'
-import { PageResponse } from '@/types/base-type';
-import {LoginParams, RecommendUsersParams, UserType} from "@/types/user";
+import {PageRequest, PageResponse} from '@/types/base-type';
+import {LoginParams, RegisterParams, UserType} from "@/types/user";
 
 /**
  * 根据标签数组 查询用户数据
- * @param tagNameList
+ * @param tagIdList
  */
-export async function searchUserByTagIdsAPI (tagIdList: number[]) {
+export async function searchUserByTagIdsAPI(tagIdList: number[]) {
     const res = await get<UserType[]>("/user/search/tagIds", {tagIdList});
     return res.data;
 }
@@ -22,8 +22,18 @@ export async function loginAPI(loginForm: LoginParams) {
 }
 
 /**
- * 获取当前登录用户信息
+ * 用户注册
  *
+ * @param registerForm 表单数据
+ */
+export async function registerAPI(registerForm: RegisterParams) {
+    const res = await post<number>("/user/register", registerForm);
+    return res.data;
+}
+
+
+/**
+ * 获取当前登录用户信息
  */
 export async function getLoginUserAPI() {
     const res = await get<UserType>("/user/current");
@@ -42,9 +52,8 @@ export async function updateUserAPI(form: UserType) {
 
 /**
  * 推荐用户接口
- * todo 后端暂未实现推荐功能，这里获取的只是分页的用户列表
  */
-export async function getRecommendUserListAPI(form: RecommendUsersParams) {
+export async function getRecommendUserListAPI(form: PageRequest) {
     const data = await get<PageResponse<UserType[]>>("/user/recommend", form)
     return data.data;
 }

@@ -3,9 +3,11 @@
 -->
 <script lang="ts" setup>
 import {UserType} from "@/types/user";
+import {defineProps} from 'vue';
 
 interface Props {
-    user: UserType, // 用户数据
+    // 用户数据
+    user: UserType;
 }
 
 defineProps<Props>();
@@ -13,15 +15,18 @@ defineProps<Props>();
 
 <template>
     <van-card
-        :title="user.username"
-        :desc="user.profile"
-        :thumb="user.avatarUrl"
-        style="background-color: white"
+            :title="user.username"
+            :desc="user.profile"
+            :thumb="user.avatarUrl"
+            style="background-color: white"
     >
         <template #tags>
             <van-row v-if="user.userTags" class="tag-row" :gutter="[20, 0]">
                 <van-col v-for="tag in user.userTags" :key="tag.id">
-                    <van-tag plain type="danger" :color="tag.color" :text-color="tag.textColor">{{ tag.tagName }}</van-tag>
+                    <van-tag plain type="danger" :color="tag.color" :text-color="tag.textColor">{{
+                        tag.tagName
+                        }}
+                    </van-tag>
                 </van-col>
             </van-row>
         </template>

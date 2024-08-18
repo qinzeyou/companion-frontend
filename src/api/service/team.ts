@@ -4,7 +4,7 @@ import {AddTeamParams, JoinTeamParams, TeamListByUserResponse, searchPageTeamDat
 
 /**
  * 条件查询队伍列表
- * @param params
+ * @param data
  */
 export async function searchPageTeamAPI (data: searchPageTeamData) {
     const res = await post<TeamType[]>("/search/page", data);
